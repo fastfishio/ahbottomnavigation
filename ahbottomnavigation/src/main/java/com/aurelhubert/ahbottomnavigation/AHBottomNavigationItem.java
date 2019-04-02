@@ -82,7 +82,7 @@ public class AHBottomNavigationItem {
 	public AHBottomNavigationItem(String title, Drawable drawable, Drawable selectedDrawable) {
 		this.title = title;
 		this.drawable = drawable;
-		this.drawable = selectedDrawable == null ? drawable : selectedDrawable;
+		this.selectedDrawable = selectedDrawable == null ? drawable : selectedDrawable;
 	}
 
 	/**
@@ -96,7 +96,7 @@ public class AHBottomNavigationItem {
 		this.title = title;
 		this.drawable = drawable;
 		this.color = color;
-		this.drawable = selectedDrawable == null ? drawable : selectedDrawable;
+		this.selectedDrawable = selectedDrawable == null ? drawable : selectedDrawable;
 	}
 
 	public String getTitle(Context context) {
@@ -144,14 +144,14 @@ public class AHBottomNavigationItem {
     return drawable;
   }
 	public Drawable getSelectedDrawable(Context context) {
-		if (drawableRes != 0) {
+		if (selectedDrawableRes != 0) {
 			try {
 				return VectorDrawableCompat.create(context.getResources(), selectedDrawableRes, null);
 			}catch (Resources.NotFoundException e){
 				return ContextCompat.getDrawable(context, selectedDrawableRes);
 			}
 		}
-		return drawable;
+		return selectedDrawable;
 	}
 
 	public void setDrawable(@DrawableRes int drawableRes) {
