@@ -8,7 +8,7 @@
     <dimen name="bottom_navigation_icon">24dp</dimen>
 
     <dimen name="bottom_navigation_margin_top_active">6dp</dimen>
-    <dimen name="bottom_navigation_margin_top_inactive">8dp</dimen>
+    <dimen name="bottom_navigation_margin_top_inactive">6dp</dimen>
     <dimen name="bottom_navigation_margin_bottom">7dp</dimen>
     <dimen name="bottom_navigation_padding_left">12dp</dimen>
     <dimen name="bottom_navigation_padding_right">12dp</dimen>
