@@ -19,6 +19,7 @@ public class AHBottomNavigationItem {
 
 	private String title = "";
 	private Drawable drawable;
+	private Drawable selectedDrawable;
 	private int color = Color.GRAY;
 
 	private
@@ -27,6 +28,8 @@ public class AHBottomNavigationItem {
 	private
 	@DrawableRes
 	int drawableRes = 0;
+	@DrawableRes
+	int selectedDrawableRes = 0;
 	private
 	@ColorRes
 	int colorRes = 0;
@@ -37,9 +40,10 @@ public class AHBottomNavigationItem {
 	 * @param title    Title
 	 * @param resource Drawable resource
 	 */
-	public AHBottomNavigationItem(String title, @DrawableRes int resource) {
+	public AHBottomNavigationItem(String title, @DrawableRes int resource, @DrawableRes int selectedDrawableRes) {
 		this.title = title;
 		this.drawableRes = resource;
+		this.selectedDrawableRes = selectedDrawableRes == 0 ? resource : selectedDrawableRes;
 	}
 
 	/**
@@ -48,10 +52,11 @@ public class AHBottomNavigationItem {
 	 * @param color    Background color
 	 */
 	@Deprecated
-	public AHBottomNavigationItem(String title, @DrawableRes int resource, @ColorRes int color) {
+	public AHBottomNavigationItem(String title, @DrawableRes int resource, @ColorRes int color, @DrawableRes int selectedDrawableRes) {
 		this.title = title;
 		this.drawableRes = resource;
 		this.color = color;
+		this.selectedDrawableRes = selectedDrawableRes == 0 ? resource : selectedDrawableRes;
 	}
 
 	/**
@@ -61,10 +66,11 @@ public class AHBottomNavigationItem {
 	 * @param drawableRes Drawable resource
 	 * @param colorRes    Color resource
 	 */
-	public AHBottomNavigationItem(@StringRes int titleRes, @DrawableRes int drawableRes, @ColorRes int colorRes) {
+	public AHBottomNavigationItem(@StringRes int titleRes, @DrawableRes int drawableRes, @ColorRes int colorRes, @DrawableRes int selectedDrawableRes) {
 		this.titleRes = titleRes;
 		this.drawableRes = drawableRes;
 		this.colorRes = colorRes;
+		this.selectedDrawableRes = selectedDrawableRes == 0 ? drawableRes : selectedDrawableRes;
 	}
 
 	/**
@@ -73,9 +79,10 @@ public class AHBottomNavigationItem {
 	 * @param title    String
 	 * @param drawable Drawable
 	 */
-	public AHBottomNavigationItem(String title, Drawable drawable) {
+	public AHBottomNavigationItem(String title, Drawable drawable, Drawable selectedDrawable) {
 		this.title = title;
 		this.drawable = drawable;
+		this.selectedDrawable = selectedDrawable == null ? drawable : selectedDrawable;
 	}
 
 	/**
@@ -85,10 +92,11 @@ public class AHBottomNavigationItem {
 	 * @param drawable Drawable
 	 * @param color    Color
 	 */
-	public AHBottomNavigationItem(String title, Drawable drawable, @ColorInt int color) {
+	public AHBottomNavigationItem(String title, Drawable drawable, @ColorInt int color, Drawable selectedDrawable) {
 		this.title = title;
 		this.drawable = drawable;
 		this.color = color;
+		this.selectedDrawable = selectedDrawable == null ? drawable : selectedDrawable;
 	}
 
 	public String getTitle(Context context) {
@@ -135,6 +143,16 @@ public class AHBottomNavigationItem {
     }
     return drawable;
   }
+	public Drawable getSelectedDrawable(Context context) {
+		if (selectedDrawableRes != 0) {
+			try {
+				return VectorDrawableCompat.create(context.getResources(), selectedDrawableRes, null);
+			}catch (Resources.NotFoundException e){
+				return ContextCompat.getDrawable(context, selectedDrawableRes);
+			}
+		}
+		return selectedDrawable;
+	}
 
 	public void setDrawable(@DrawableRes int drawableRes) {
 		this.drawableRes = drawableRes;
@@ -144,5 +162,14 @@ public class AHBottomNavigationItem {
 	public void setDrawable(Drawable drawable) {
 		this.drawable = drawable;
 		this.drawableRes = 0;
+	}
+	public void setSelectedDrawable(@DrawableRes int selectedDrawableRes) {
+		this.selectedDrawableRes = selectedDrawableRes;
+		this.selectedDrawable = null;
+	}
+
+	public void setSelectedDrawable(Drawable selectedDrawable) {
+		this.selectedDrawable = selectedDrawable;
+		this.selectedDrawableRes = 0;
 	}
 }
