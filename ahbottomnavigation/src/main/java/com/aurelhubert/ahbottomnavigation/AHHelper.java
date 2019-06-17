@@ -5,6 +5,7 @@ import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -255,5 +256,11 @@ public class AHHelper {
 			context = wrapper.getBaseContext();
 		}
 		return (Activity) context;
+	}
+
+	public static float convertDpToPixel(float dp){
+		DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
+		float px = dp * (metrics.densityDpi / 160f);
+		return Math.round(px);
 	}
 }

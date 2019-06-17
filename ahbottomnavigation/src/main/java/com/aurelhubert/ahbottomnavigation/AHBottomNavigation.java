@@ -224,6 +224,8 @@ public class AHBottomNavigation extends FrameLayout {
 
 		ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
 				ViewGroup.LayoutParams.MATCH_PARENT, bottomNavigationHeight);
+		setClipChildren(false);
+		setClipToPadding(false);
 		setLayoutParams(params);
 	}
 
@@ -252,6 +254,8 @@ public class AHBottomNavigation extends FrameLayout {
 		linearLayoutContainer = new LinearLayout(context);
 		linearLayoutContainer.setOrientation(LinearLayout.HORIZONTAL);
 		linearLayoutContainer.setGravity(Gravity.CENTER);
+		linearLayoutContainer.setClipChildren(false);
+		linearLayoutContainer.setClipToPadding(false);
 
 		LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, layoutHeight);
 		addView(linearLayoutContainer, layoutParams);
@@ -443,6 +447,17 @@ public class AHBottomNavigation extends FrameLayout {
 			});
 			view.setSoundEffectsEnabled(soundEffectsEnabled);
 
+			if(item.isCenter()) {
+				ViewGroup.MarginLayoutParams iconParams = (ViewGroup.MarginLayoutParams)
+						icon.getLayoutParams();
+				iconParams.height = (int) resources.getDimension(R.dimen.bottom_navigation_center_icon);
+				iconParams.width = (int) resources.getDimension(R.dimen.bottom_navigation_center_icon);
+				iconParams.setMargins(0, (int)AHHelper.convertDpToPixel(item.getMarginTop()), 0, 0);
+				ViewGroup.MarginLayoutParams notificationMargin = (ViewGroup.MarginLayoutParams)
+						notification.getLayoutParams();
+				notificationMargin.setMargins((int)AHHelper.convertDpToPixel(16), (int)AHHelper.convertDpToPixel(item.getMarginTop()), 0, 0);
+			}
+
 			LayoutParams params = new LayoutParams((int) itemWidth, (int) height);
 			linearLayout.addView(view, params);
 			views.add(view);
@@ -568,6 +583,18 @@ public class AHBottomNavigation extends FrameLayout {
 				width = (int) (itemWidth * 1.16);
 			}
 
+			if(item.isCenter()) {
+				ViewGroup.MarginLayoutParams iconParams = (ViewGroup.MarginLayoutParams)
+						icon.getLayoutParams();
+				iconParams.height = (int) resources.getDimension(R.dimen.bottom_navigation_center_icon);
+				iconParams.width = (int) resources.getDimension(R.dimen.bottom_navigation_center_icon);
+				iconParams.setMargins(0, (int)AHHelper.convertDpToPixel(item.getMarginTop()), 0, 0);
+				ViewGroup.MarginLayoutParams notificationMargin = (ViewGroup.MarginLayoutParams)
+						notification.getLayoutParams();
+				notificationMargin.setMargins((int)AHHelper.convertDpToPixel(16), (int)AHHelper.convertDpToPixel(item.getMarginTop()), 0, 0);
+			}
+
+
 			LayoutParams params = new LayoutParams(width, (int) height);
 			linearLayout.addView(view, params);
 			views.add(view);
@@ -624,7 +651,6 @@ public class AHBottomNavigation extends FrameLayout {
 				final TextView notification = (TextView) view.findViewById(R.id.bottom_navigation_notification);
 
 				icon.setSelected(true);
-				AHHelper.updateTopMargin(icon, inactiveMarginTop, activeMarginTop);
 				AHHelper.updateLeftMargin(notification, notificationInactiveMarginLeft, notificationActiveMarginLeft);
 				AHHelper.updateTextColor(title, itemInactiveColor, itemActiveColor);
 				AHHelper.updateTextSize(title, inactiveSize, activeSize);
@@ -684,12 +710,12 @@ public class AHBottomNavigation extends FrameLayout {
 				final TextView notification = (TextView) view.findViewById(R.id.bottom_navigation_notification);
 
 				icon.setSelected(false);
-				AHHelper.updateTopMargin(icon, activeMarginTop, inactiveMarginTop);
 				AHHelper.updateLeftMargin(notification, notificationActiveMarginLeft, notificationInactiveMarginLeft);
 				AHHelper.updateTextColor(title, itemActiveColor, itemInactiveColor);
 				AHHelper.updateTextSize(title, activeSize, inactiveSize);
 				icon.setImageDrawable(items.get(currentItem).getDrawable(context));
 			}
+
 		}
 
 		currentItem = itemIndex;
@@ -745,7 +771,6 @@ public class AHBottomNavigation extends FrameLayout {
 				icon.setSelected(true);
 
 				if (titleState != TitleState.ALWAYS_HIDE) {
-					AHHelper.updateTopMargin(icon, inactiveMargin, activeMarginTop);
 					AHHelper.updateLeftMargin(notification, notificationInactiveMarginLeft, notificationActiveMarginLeft);
 					AHHelper.updateTopMargin(notification, notificationInactiveMarginTop, notificationActiveMarginTop);
 					AHHelper.updateTextColor(title, itemInactiveColor, itemActiveColor);
@@ -811,7 +836,6 @@ public class AHBottomNavigation extends FrameLayout {
 				icon.setSelected(false);
 
 				if (titleState != TitleState.ALWAYS_HIDE) {
-					AHHelper.updateTopMargin(icon, activeMarginTop, inactiveMargin);
 					AHHelper.updateLeftMargin(notification, notificationActiveMarginLeft, notificationInactiveMarginLeft);
 					AHHelper.updateTopMargin(notification, notificationActiveMarginTop, notificationInactiveMarginTop);
 					AHHelper.updateTextColor(title, itemActiveColor, itemInactiveColor);

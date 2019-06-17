@@ -6,6 +6,7 @@
     <dimen name="bottom_navigation_max_width">168dp</dimen>
     <dimen name="bottom_navigation_height">56dp</dimen>
     <dimen name="bottom_navigation_icon">24dp</dimen>
+    <dimen name="bottom_navigation_center_icon">60dp</dimen>
 
     <dimen name="bottom_navigation_margin_top_active">6dp</dimen>
     <dimen name="bottom_navigation_margin_top_inactive">6dp</dimen>
