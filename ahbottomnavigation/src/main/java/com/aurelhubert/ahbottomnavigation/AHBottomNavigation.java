@@ -636,7 +636,6 @@ public class AHBottomNavigation extends FrameLayout {
 			activeSize = resources.getDimension(R.dimen.bottom_navigation_text_size_forced_active);
 			inactiveSize = resources.getDimension(R.dimen.bottom_navigation_text_size_forced_inactive);
 		}
-		AHBottomNavigationItem item = null;
 		for (int i = 0; i < views.size(); i++) {
 
 			final View view = views.get(i);
@@ -649,22 +648,11 @@ public class AHBottomNavigation extends FrameLayout {
 				final TextView title = (TextView) view.findViewById(R.id.bottom_navigation_item_title);
 				final ImageView icon = (ImageView) view.findViewById(R.id.bottom_navigation_item_icon);
 				final TextView notification = (TextView) view.findViewById(R.id.bottom_navigation_notification);
-				item = items.get(itemIndex);
 				icon.setSelected(true);
 				AHHelper.updateLeftMargin(notification, notificationInactiveMarginLeft, notificationActiveMarginLeft);
 				AHHelper.updateTextColor(title, itemInactiveColor, itemActiveColor);
 				AHHelper.updateTextSize(title, inactiveSize, activeSize);
 				icon.setImageDrawable(items.get(itemIndex).getSelectedDrawable(context));
-				if(item.isCenter()) {
-					ViewGroup.MarginLayoutParams iconParams = (ViewGroup.MarginLayoutParams)
-							icon.getLayoutParams();
-					iconParams.height = (int) resources.getDimension(R.dimen.bottom_navigation_center_icon);
-					iconParams.width = (int) resources.getDimension(R.dimen.bottom_navigation_center_icon);
-					iconParams.setMargins(0, (int)AHHelper.convertDpToPixel(item.getMarginTop()), 0, 0);
-					ViewGroup.MarginLayoutParams notificationMargin = (ViewGroup.MarginLayoutParams)
-							notification.getLayoutParams();
-					notificationMargin.setMargins((int)AHHelper.convertDpToPixel(16), (int)AHHelper.convertDpToPixel(item.getMarginTop()), 0, 0);
-				}
 
 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && colored) {
 
@@ -718,22 +706,11 @@ public class AHBottomNavigation extends FrameLayout {
 				final TextView title = (TextView) view.findViewById(R.id.bottom_navigation_item_title);
 				final ImageView icon = (ImageView) view.findViewById(R.id.bottom_navigation_item_icon);
 				final TextView notification = (TextView) view.findViewById(R.id.bottom_navigation_notification);
-				item = items.get(currentItem);
 				icon.setSelected(false);
 				AHHelper.updateLeftMargin(notification, notificationActiveMarginLeft, notificationInactiveMarginLeft);
 				AHHelper.updateTextColor(title, itemActiveColor, itemInactiveColor);
 				AHHelper.updateTextSize(title, activeSize, inactiveSize);
 				icon.setImageDrawable(items.get(currentItem).getDrawable(context));
-				if(item.isCenter()) {
-					ViewGroup.MarginLayoutParams iconParams = (ViewGroup.MarginLayoutParams)
-							icon.getLayoutParams();
-					iconParams.height = (int) resources.getDimension(R.dimen.bottom_navigation_center_icon);
-					iconParams.width = (int) resources.getDimension(R.dimen.bottom_navigation_center_icon);
-					iconParams.setMargins(0, (int)AHHelper.convertDpToPixel(item.getMarginTop()), 0, 0);
-					ViewGroup.MarginLayoutParams notificationMargin = (ViewGroup.MarginLayoutParams)
-							notification.getLayoutParams();
-					notificationMargin.setMargins((int)AHHelper.convertDpToPixel(16), (int)AHHelper.convertDpToPixel(item.getMarginTop()), 0, 0);
-				}
 
 			}
 
@@ -774,7 +751,6 @@ public class AHBottomNavigation extends FrameLayout {
 
 		int activeMarginTop = (int) resources.getDimension(R.dimen.bottom_navigation_small_margin_top_active);
 		int inactiveMargin = (int) resources.getDimension(R.dimen.bottom_navigation_small_margin_top);
-		AHBottomNavigationItem item = null;
 		for (int i = 0; i < views.size(); i++) {
 
 			final View view = views.get(i);
@@ -790,7 +766,6 @@ public class AHBottomNavigation extends FrameLayout {
 				final TextView notification = (TextView) view.findViewById(R.id.bottom_navigation_notification);
 
 				icon.setSelected(true);
-				item = items.get(itemIndex);
 				if (titleState != TitleState.ALWAYS_HIDE) {
 					AHHelper.updateLeftMargin(notification, notificationInactiveMarginLeft, notificationActiveMarginLeft);
 					AHHelper.updateTopMargin(notification, notificationInactiveMarginTop, notificationActiveMarginTop);
@@ -800,16 +775,6 @@ public class AHBottomNavigation extends FrameLayout {
 
 				AHHelper.updateAlpha(title, 0, 1);
 				icon.setImageDrawable(items.get(itemIndex).getSelectedDrawable(context));
-				if(item.isCenter()) {
-					ViewGroup.MarginLayoutParams iconParams = (ViewGroup.MarginLayoutParams)
-							icon.getLayoutParams();
-					iconParams.height = (int) resources.getDimension(R.dimen.bottom_navigation_center_icon);
-					iconParams.width = (int) resources.getDimension(R.dimen.bottom_navigation_center_icon);
-					iconParams.setMargins(0, (int)AHHelper.convertDpToPixel(item.getMarginTop()), 0, 0);
-					ViewGroup.MarginLayoutParams notificationMargin = (ViewGroup.MarginLayoutParams)
-							notification.getLayoutParams();
-					notificationMargin.setMargins((int)AHHelper.convertDpToPixel(16), (int)AHHelper.convertDpToPixel(item.getMarginTop()), 0, 0);
-				}
 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && colored) {
 					int finalRadius = Math.max(getWidth(), getHeight());
 					int cx = (int) views.get(itemIndex).getX() + views.get(itemIndex).getWidth() / 2;
@@ -864,7 +829,6 @@ public class AHBottomNavigation extends FrameLayout {
 				final TextView notification = (TextView) view.findViewById(R.id.bottom_navigation_notification);
 
 				icon.setSelected(false);
-				item = items.get(currentItem);
 				if (titleState != TitleState.ALWAYS_HIDE) {
 					AHHelper.updateLeftMargin(notification, notificationActiveMarginLeft, notificationInactiveMarginLeft);
 					AHHelper.updateTopMargin(notification, notificationActiveMarginTop, notificationInactiveMarginTop);
@@ -874,16 +838,6 @@ public class AHBottomNavigation extends FrameLayout {
 
 				AHHelper.updateAlpha(title, 1, 0);
 				icon.setImageDrawable(items.get(currentItem).getDrawable(context));
-				if(item.isCenter()) {
-					ViewGroup.MarginLayoutParams iconParams = (ViewGroup.MarginLayoutParams)
-							icon.getLayoutParams();
-					iconParams.height = (int) resources.getDimension(R.dimen.bottom_navigation_center_icon);
-					iconParams.width = (int) resources.getDimension(R.dimen.bottom_navigation_center_icon);
-					iconParams.setMargins(0, (int)AHHelper.convertDpToPixel(item.getMarginTop()), 0, 0);
-					ViewGroup.MarginLayoutParams notificationMargin = (ViewGroup.MarginLayoutParams)
-							notification.getLayoutParams();
-					notificationMargin.setMargins((int)AHHelper.convertDpToPixel(16), (int)AHHelper.convertDpToPixel(item.getMarginTop()), 0, 0);
-				}
 			}
 		}
 
