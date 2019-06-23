@@ -453,9 +453,6 @@ public class AHBottomNavigation extends FrameLayout {
 				iconParams.height = (int) resources.getDimension(R.dimen.bottom_navigation_center_icon);
 				iconParams.width = (int) resources.getDimension(R.dimen.bottom_navigation_center_icon);
 				iconParams.setMargins(0, (int)AHHelper.convertDpToPixel(item.getMarginTop()), 0, 0);
-				ViewGroup.MarginLayoutParams notificationMargin = (ViewGroup.MarginLayoutParams)
-						notification.getLayoutParams();
-				notificationMargin.setMargins((int)AHHelper.convertDpToPixel(16), (int)AHHelper.convertDpToPixel(item.getMarginTop()), 0, 0);
 			}
 
 			LayoutParams params = new LayoutParams((int) itemWidth, (int) height);
@@ -589,9 +586,6 @@ public class AHBottomNavigation extends FrameLayout {
 				iconParams.height = (int) resources.getDimension(R.dimen.bottom_navigation_center_icon);
 				iconParams.width = (int) resources.getDimension(R.dimen.bottom_navigation_center_icon);
 				iconParams.setMargins(0, (int)AHHelper.convertDpToPixel(item.getMarginTop()), 0, 0);
-				ViewGroup.MarginLayoutParams notificationMargin = (ViewGroup.MarginLayoutParams)
-						notification.getLayoutParams();
-				notificationMargin.setMargins((int)AHHelper.convertDpToPixel(16), (int)AHHelper.convertDpToPixel(item.getMarginTop()), 0, 0);
 			}
 
 
