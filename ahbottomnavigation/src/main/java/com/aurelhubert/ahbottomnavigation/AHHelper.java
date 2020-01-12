@@ -5,6 +5,7 @@ import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -256,4 +257,10 @@ public class AHHelper {
     public static boolean equals(@Nullable Object o1, @Nullable Object o2) {
         return o1 == null && o2 == null || o1 != null && o1.equals(o2);
     }
+
+	public static float convertDpToPixel(float dp){
+		DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
+		float px = dp * (metrics.densityDpi / 160f);
+		return Math.round(px);
+	}
 }

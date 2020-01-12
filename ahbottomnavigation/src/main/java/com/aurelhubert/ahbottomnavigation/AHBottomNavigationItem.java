@@ -24,6 +24,8 @@ public class AHBottomNavigationItem {
     private Drawable selectedIcon;
     private String tag;
     private int color = Color.GRAY;
+	private boolean isCenter = false;
+	private int marginTop = -16;
 
     private @DrawableRes int iconRes = 0;
     private @DrawableRes int selectedIconRes = 0;
@@ -115,6 +117,14 @@ public class AHBottomNavigationItem {
 		this.color = color;
 	}
 
+	public AHBottomNavigationItem(String title, Drawable icon, Drawable selectedIcon, String tag, boolean isCenter) {
+		this.title = title;
+		this.icon = icon;
+		this.selectedIcon = selectedIcon;
+		this.tag = tag;
+		this.isCenter = isCenter;
+	}
+
     public String getTitle(Context context) {
 		if (titleRes != 0) {
 			return context.getString(titleRes);
@@ -191,4 +201,20 @@ public class AHBottomNavigationItem {
         }
         return null;
     }
+
+	public boolean isCenter() {
+		return isCenter;
+	}
+
+	public void setCenter(boolean center) {
+		isCenter = center;
+	}
+
+	public int getMarginTop() {
+		return marginTop;
+	}
+
+	public void setMarginTop(int marginTop) {
+		this.marginTop = marginTop;
+	}
 }

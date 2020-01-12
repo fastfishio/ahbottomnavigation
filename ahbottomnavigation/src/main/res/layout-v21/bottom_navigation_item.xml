@@ -8,7 +8,10 @@
     android:background="?selectableItemBackgroundBorderless"
     android:minWidth="@dimen/bottom_navigation_min_width"
     android:paddingLeft="@dimen/bottom_navigation_padding_left"
-    android:paddingRight="@dimen/bottom_navigation_padding_right">
+    android:paddingRight="@dimen/bottom_navigation_padding_right"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    >
 
     <ImageView
         android:id="@+id/bottom_navigation_item_icon"

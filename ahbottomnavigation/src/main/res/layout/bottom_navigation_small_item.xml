@@ -5,7 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/bottom_navigation_height"
     android:background="@drawable/item_background"
-    android:minWidth="@dimen/bottom_navigation_min_width">
+    android:minWidth="@dimen/bottom_navigation_min_width"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    >
 
     <ImageView
         android:id="@+id/bottom_navigation_small_item_icon"

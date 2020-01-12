@@ -57,9 +57,11 @@ public class AHBottomNavigationAdapter {
 				MenuItem item = mMenu.getItem(i);
 				if (colors != null && colors.length >= mMenu.size() && colors[i] != 0) {
 					AHBottomNavigationItem navigationItem = new AHBottomNavigationItem(String.valueOf(item.getTitle()), item.getIcon(), colors[i]);
+					if (i == 2) navigationItem.setCenter(true);
 					navigationItems.add(navigationItem);
 				} else {
 					AHBottomNavigationItem navigationItem = new AHBottomNavigationItem(String.valueOf(item.getTitle()), item.getIcon());
+					if (i == 2) navigationItem.setCenter(true);
 					navigationItems.add(navigationItem);
 				}
 			}
