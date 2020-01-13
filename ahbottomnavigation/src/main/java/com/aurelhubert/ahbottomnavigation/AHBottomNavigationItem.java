@@ -117,12 +117,13 @@ public class AHBottomNavigationItem {
 		this.color = color;
 	}
 
-	public AHBottomNavigationItem(String title, Drawable icon, Drawable selectedIcon, String tag, boolean isCenter) {
+	public AHBottomNavigationItem(String title, Drawable icon, Drawable selectedIcon, String tag, boolean isCenter, int marginTop) {
 		this.title = title;
 		this.icon = icon;
 		this.selectedIcon = selectedIcon;
 		this.tag = tag;
 		this.isCenter = isCenter;
+		this.marginTop = marginTop;
 	}
 
     public String getTitle(Context context) {
