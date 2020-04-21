@@ -48,4 +48,65 @@
         android:paddingLeft="12dp"
         android:paddingRight="12dp" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/tab2DifferentColors"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tab2_different_colors"
+            android:onClick="tab2DifferentColors"/>
+
+        <Button
+            android:id="@+id/tab1CustomColors"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tab1_custom_colors"
+            android:onClick="tab1CustomColors"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/tab3SelectedIconColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tab3_selected_icon_color"
+            android:onClick="tab3SelectedIconColor"/>
+        <Button
+            android:id="@+id/fontSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fontSize"
+            android:onClick="setTab3FontSize"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/tab1Dot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tab1_dot"
+            android:onClick="tab1Dot"/>
+        <Button
+            android:id="@+id/tab2Dot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tab2_dot"
+            android:onClick="tab2Dot"/>
+
+        <Button
+            android:id="@+id/tab2Badge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tab2_badge"
+            android:onClick="tab2Badge"/>
+    </LinearLayout>
 </LinearLayout>
