@@ -4,87 +4,104 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.ColorInt;
-import android.support.annotation.ColorRes;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.StringRes;
-import android.support.graphics.drawable.VectorDrawableCompat;
-import android.support.v4.content.ContextCompat;
+import android.graphics.drawable.StateListDrawable;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.StringRes;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.content.ContextCompat;
 
 /**
  * AHBottomNavigationItem
  * The item is display in the AHBottomNavigation layout
  */
 public class AHBottomNavigationItem {
-
+	
 	private String title = "";
-	private Drawable drawable;
-	private Drawable selectedDrawable;
-	private int color = Color.GRAY;
+	private Drawable icon;
+    private Drawable selectedIcon;
+    private String tag;
+    private int color = Color.GRAY;
 
-	private
-	@StringRes
-	int titleRes = 0;
-	private
-	@DrawableRes
-	int drawableRes = 0;
-	@DrawableRes
-	int selectedDrawableRes = 0;
-	private
-	@ColorRes
-	int colorRes = 0;
+    private @DrawableRes int iconRes = 0;
+    private @DrawableRes int selectedIconRes = 0;
+	private @StringRes int titleRes = 0;
+	private @ColorRes int colorRes = 0;
 
 	/**
 	 * Constructor
 	 *
 	 * @param title    Title
-	 * @param resource Drawable resource
+	 * @param iconRes Drawable resource
 	 */
-	public AHBottomNavigationItem(String title, @DrawableRes int resource, @DrawableRes int selectedDrawableRes) {
+	public AHBottomNavigationItem(String title, @DrawableRes int iconRes) {
 		this.title = title;
-		this.drawableRes = resource;
-		this.selectedDrawableRes = selectedDrawableRes == 0 ? resource : selectedDrawableRes;
+		this.iconRes = iconRes;
 	}
 
 	/**
 	 * @param title    Title
-	 * @param resource Drawable resource
+	 * @param iconRes Drawable resource
 	 * @param color    Background color
 	 */
 	@Deprecated
-	public AHBottomNavigationItem(String title, @DrawableRes int resource, @ColorRes int color, @DrawableRes int selectedDrawableRes) {
+	public AHBottomNavigationItem(String title, @DrawableRes int iconRes, @ColorRes int color) {
 		this.title = title;
-		this.drawableRes = resource;
+		this.iconRes = iconRes;
 		this.color = color;
-		this.selectedDrawableRes = selectedDrawableRes == 0 ? resource : selectedDrawableRes;
 	}
-
+	
 	/**
 	 * Constructor
 	 *
 	 * @param titleRes    String resource
-	 * @param drawableRes Drawable resource
+	 * @param iconRes Drawable resource
 	 * @param colorRes    Color resource
 	 */
-	public AHBottomNavigationItem(@StringRes int titleRes, @DrawableRes int drawableRes, @ColorRes int colorRes, @DrawableRes int selectedDrawableRes) {
+	public AHBottomNavigationItem(@StringRes int titleRes, @DrawableRes int iconRes, @ColorRes int colorRes) {
 		this.titleRes = titleRes;
-		this.drawableRes = drawableRes;
+		this.iconRes = iconRes;
 		this.colorRes = colorRes;
-		this.selectedDrawableRes = selectedDrawableRes == 0 ? drawableRes : selectedDrawableRes;
 	}
 
-	/**
+    /**
+     * Constructor
+     *
+     * @param titleRes    String resource
+     * @param iconRes Drawable resource
+     */
+    public AHBottomNavigationItem(@StringRes int titleRes, @DrawableRes int iconRes) {
+        this.titleRes = titleRes;
+        this.iconRes = iconRes;
+    }
+
+    /**
 	 * Constructor
 	 *
 	 * @param title    String
 	 * @param drawable Drawable
 	 */
-	public AHBottomNavigationItem(String title, Drawable drawable, Drawable selectedDrawable) {
+	public AHBottomNavigationItem(String title, Drawable drawable) {
 		this.title = title;
-		this.drawable = drawable;
-		this.selectedDrawable = selectedDrawable == null ? drawable : selectedDrawable;
+		this.icon = drawable;
 	}
 
+    /**
+     * Constructor
+     *
+     * @param title    String
+     * @param icon Drawable
+     * @param tag String
+     */
+    public AHBottomNavigationItem(String title, Drawable icon, Drawable selectedIcon, String tag) {
+        this.title = title;
+        this.icon = icon;
+        this.selectedIcon = selectedIcon;
+        this.tag = tag;
+    }
+	
 	/**
 	 * Constructor
 	 *
@@ -92,84 +109,86 @@ public class AHBottomNavigationItem {
 	 * @param drawable Drawable
 	 * @param color    Color
 	 */
-	public AHBottomNavigationItem(String title, Drawable drawable, @ColorInt int color, Drawable selectedDrawable) {
+	public AHBottomNavigationItem(String title, Drawable drawable, @ColorInt int color) {
 		this.title = title;
-		this.drawable = drawable;
+		this.icon = drawable;
 		this.color = color;
-		this.selectedDrawable = selectedDrawable == null ? drawable : selectedDrawable;
 	}
 
-	public String getTitle(Context context) {
+    public String getTitle(Context context) {
 		if (titleRes != 0) {
 			return context.getString(titleRes);
 		}
 		return title;
 	}
-
+	
 	public void setTitle(String title) {
 		this.title = title;
 		this.titleRes = 0;
 	}
-
+	
 	public void setTitle(@StringRes int titleRes) {
 		this.titleRes = titleRes;
 		this.title = "";
 	}
-
+	
 	public int getColor(Context context) {
 		if (colorRes != 0) {
 			return ContextCompat.getColor(context, colorRes);
 		}
 		return color;
 	}
-
+	
 	public void setColor(@ColorInt int color) {
 		this.color = color;
 		this.colorRes = 0;
 	}
-
+	
 	public void setColorRes(@ColorRes int colorRes) {
 		this.colorRes = colorRes;
 		this.color = 0;
 	}
 	
 	public Drawable getDrawable(Context context) {
-    if (drawableRes != 0) {
-      try {
-        return VectorDrawableCompat.create(context.getResources(), drawableRes, null);
-      }catch (Resources.NotFoundException e){
-        return ContextCompat.getDrawable(context, drawableRes);
-      }
+	    Drawable icon = this.icon == null ? getResourceDrawable(context, iconRes) : this.icon;
+	    Drawable selectedIcon = this.selectedIcon == null ? getResourceDrawable(context, selectedIconRes) : this.selectedIcon;
+
+        StateListDrawable stateDrawable = new StateListDrawable();
+        if (selectedIcon != null) stateDrawable.addState(new int[] { android.R.attr.state_selected }, selectedIcon);
+        stateDrawable.addState(new int[] {}, icon);
+        return stateDrawable;
+	}
+
+	public void setIcon(@DrawableRes int drawableRes) {
+		this.iconRes = drawableRes;
+		this.icon = null;
+	}
+	
+	public void setIcon(Drawable drawable) {
+		this.icon = drawable;
+		this.iconRes = 0;
+	}
+
+    public void setSelectedIcon(Drawable selectedIcon) {
+        this.selectedIcon = selectedIcon;
     }
-    return drawable;
-  }
-	public Drawable getSelectedDrawable(Context context) {
-		if (selectedDrawableRes != 0) {
-			try {
-				return VectorDrawableCompat.create(context.getResources(), selectedDrawableRes, null);
-			}catch (Resources.NotFoundException e){
-				return ContextCompat.getDrawable(context, selectedDrawableRes);
-			}
-		}
-		return selectedDrawable;
-	}
 
-	public void setDrawable(@DrawableRes int drawableRes) {
-		this.drawableRes = drawableRes;
-		this.drawable = null;
-	}
+    public void setSelectedIcon(@DrawableRes int selectedIconRes) {
+        this.selectedIconRes = selectedIconRes;
+    }
 
-	public void setDrawable(Drawable drawable) {
-		this.drawable = drawable;
-		this.drawableRes = 0;
-	}
-	public void setSelectedDrawable(@DrawableRes int selectedDrawableRes) {
-		this.selectedDrawableRes = selectedDrawableRes;
-		this.selectedDrawable = null;
-	}
+    public String getTag() {
+        return tag;
+    }
 
-	public void setSelectedDrawable(Drawable selectedDrawable) {
-		this.selectedDrawable = selectedDrawable;
-		this.selectedDrawableRes = 0;
-	}
+    private Drawable getResourceDrawable(Context context, @DrawableRes int drawableRes) {
+        if (drawableRes != 0) {
+            try {
+                return AppCompatResources.getDrawable(context, drawableRes);
+            } catch (Resources.NotFoundException e) {
+                return ContextCompat.getDrawable(context, drawableRes);
+            }
+        }
+        return null;
+    }
 }
