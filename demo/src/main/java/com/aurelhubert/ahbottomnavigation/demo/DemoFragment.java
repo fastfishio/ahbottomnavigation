@@ -3,31 +3,35 @@ package com.aurelhubert.ahbottomnavigation.demo;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SwitchCompat;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.CompoundButton;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
+import android.widget.Spinner;
+
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  */
 public class DemoFragment extends Fragment {
-
+	
 	private FrameLayout fragmentContainer;
 	private RecyclerView recyclerView;
-	private RecyclerView.LayoutManager layoutManager;
 
-	/**
+    /**
 	 * Create a new instance of the fragment
 	 */
 	public static DemoFragment newInstance(int index) {
@@ -37,7 +41,7 @@ public class DemoFragment extends Fragment {
 		fragment.setArguments(b);
 		return fragment;
 	}
-
+	
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,20 +55,20 @@ public class DemoFragment extends Fragment {
 			return view;
 		}
 	}
-
+	
 	/**
 	 * Init demo settings
 	 */
 	private void initDemoSettings(View view) {
-
+		
 		final DemoActivity demoActivity = (DemoActivity) getActivity();
-		final SwitchCompat switchColored = (SwitchCompat) view.findViewById(R.id.fragment_demo_switch_colored);
-		final SwitchCompat switchFiveItems = (SwitchCompat) view.findViewById(R.id.fragment_demo_switch_five_items);
-		final SwitchCompat showHideBottomNavigation = (SwitchCompat) view.findViewById(R.id.fragment_demo_show_hide);
-		final SwitchCompat showSelectedBackground = (SwitchCompat) view.findViewById(R.id.fragment_demo_selected_background);
-		final SwitchCompat switchForceTitleHide = (SwitchCompat) view.findViewById(R.id.fragment_demo_force_title_hide);
-		final SwitchCompat switchTranslucentNavigation = (SwitchCompat) view.findViewById(R.id.fragment_demo_translucent_navigation);
-
+		final SwitchCompat switchColored = view.findViewById(R.id.fragment_demo_switch_colored);
+		final SwitchCompat switchFiveItems = view.findViewById(R.id.fragment_demo_switch_five_items);
+		final SwitchCompat showHideBottomNavigation = view.findViewById(R.id.fragment_demo_show_hide);
+		final SwitchCompat showSelectedBackground = view.findViewById(R.id.fragment_demo_selected_background);
+		final Spinner spinnerTitleState = view.findViewById(R.id.fragment_demo_title_state);
+		final SwitchCompat switchTranslucentNavigation = view.findViewById(R.id.fragment_demo_translucent_navigation);
+		
 		switchColored.setChecked(demoActivity.isBottomNavigationColored());
 		switchFiveItems.setChecked(demoActivity.getBottomNavigationNbItems() == 5);
 		switchTranslucentNavigation.setChecked(getActivity()
@@ -72,70 +76,61 @@ public class DemoFragment extends Fragment {
 				.getBoolean("translucentNavigation", false));
 		switchTranslucentNavigation.setVisibility(
 				Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? View.VISIBLE : View.GONE);
-
-		switchTranslucentNavigation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+		
+		switchTranslucentNavigation.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            getActivity()
+                    .getSharedPreferences("shared", Context.MODE_PRIVATE)
+                    .edit()
+                    .putBoolean("translucentNavigation", isChecked)
+                    .apply();
+            demoActivity.reload();
+        });
+		switchColored.setOnCheckedChangeListener((buttonView, isChecked) -> demoActivity.updateBottomNavigationColor(isChecked));
+		switchFiveItems.setOnCheckedChangeListener((buttonView, isChecked) -> demoActivity.updateBottomNavigationItems(isChecked));
+		showHideBottomNavigation.setOnCheckedChangeListener((buttonView, isChecked) -> demoActivity.showOrHideBottomNavigation(isChecked));
+		showSelectedBackground.setOnCheckedChangeListener((buttonView, isChecked) -> demoActivity.updateSelectedBackgroundVisibility(isChecked));
+		final List<String> titleStates = new ArrayList<>();
+		for (AHBottomNavigation.TitleState titleState : AHBottomNavigation.TitleState.values()) {
+			titleStates.add(titleState.toString());
+		}
+		// TitleState spinner
+		ArrayAdapter<String> titleStateSpinnerAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, titleStates);
+		titleStateSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinnerTitleState.setAdapter(titleStateSpinnerAdapter);
+		spinnerTitleState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				getActivity()
-						.getSharedPreferences("shared", Context.MODE_PRIVATE)
-						.edit()
-						.putBoolean("translucentNavigation", isChecked)
-						.apply();
-				demoActivity.reload();
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				AHBottomNavigation.TitleState titleState = AHBottomNavigation.TitleState.valueOf(titleStates.get(position));
+				demoActivity.setTitleState(titleState);
 			}
-		});
-		switchColored.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				demoActivity.updateBottomNavigationColor(isChecked);
-			}
-		});
-		switchFiveItems.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				demoActivity.updateBottomNavigationItems(isChecked);
-			}
-		});
-		showHideBottomNavigation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				demoActivity.showOrHideBottomNavigation(isChecked);
-			}
-		});
-		showSelectedBackground.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				demoActivity.updateSelectedBackgroundVisibility(isChecked);
-			}
-		});
-		switchForceTitleHide.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				demoActivity.setForceTitleHide(isChecked);
+			public void onNothingSelected(AdapterView<?> parent) {
+				// do nothing
 			}
 		});
 	}
-
+	
 	/**
 	 * Init the fragment
 	 */
 	private void initDemoList(View view) {
-
-		fragmentContainer = (FrameLayout) view.findViewById(R.id.fragment_container);
-		recyclerView = (RecyclerView) view.findViewById(R.id.fragment_demo_recycler_view);
+		
+		fragmentContainer = view.findViewById(R.id.fragment_container);
+		recyclerView = view.findViewById(R.id.fragment_demo_recycler_view);
 		recyclerView.setHasFixedSize(true);
-		layoutManager = new LinearLayoutManager(getActivity());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
 		recyclerView.setLayoutManager(layoutManager);
-
+		
 		ArrayList<String> itemsData = new ArrayList<>();
 		for (int i = 0; i < 50; i++) {
 			itemsData.add("Fragment " + getArguments().getInt("index", -1) + " / Item " + i);
 		}
-
+		
 		DemoAdapter adapter = new DemoAdapter(itemsData);
 		recyclerView.setAdapter(adapter);
 	}
-
+	
 	/**
 	 * Refresh
 	 */
@@ -144,7 +139,7 @@ public class DemoFragment extends Fragment {
 			recyclerView.smoothScrollToPosition(0);
 		}
 	}
-
+	
 	/**
 	 * Called when a fragment will be displayed
 	 */
@@ -155,7 +150,7 @@ public class DemoFragment extends Fragment {
 			fragmentContainer.startAnimation(fadeIn);
 		}
 	}
-
+	
 	/**
 	 * Called when a fragment will be hidden
 	 */
